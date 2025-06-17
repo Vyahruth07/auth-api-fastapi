@@ -11,11 +11,12 @@ def authenticate_user(email: str, password: str, db: Session):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid credentials",
+            headers={"WWW-Authenticate": "Bearer"},
         )
     return db_user
 
 def login_user(user: models.User):
-    token_data = {"sub" : user.email}
+    token_data = {"sub" : user.email, "role": user.role}
     access_token = create_access_token(token_data)
     refresh_token = create_refresh_token(token_data)  # No expiration for refresh token
 

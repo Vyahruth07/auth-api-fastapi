@@ -1,7 +1,9 @@
+from typing import Literal
 from pydantic import BaseModel, EmailStr
 
 class UserBase(BaseModel):
     email: EmailStr
+    role: Literal["user", "admin"] = "user"  # Default role is 'user'
 
 class UserCreate(UserBase):
     password: str
